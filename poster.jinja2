@@ -1,0 +1,91 @@
+{#
+Copyright © 2020 Clément Pit-Claudel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ webpage_title }}</title>
+    <link rel="stylesheet" href="poster.css">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1">
+    <!-- Based on a poster template from https://github.com/cpitclaudel/academic-poster-template -->
+
+    {% block mathjax %}
+      <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    {% endblock %}
+
+    {% block fonts %}
+      <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+    {% endblock %}
+  </head>
+
+  {# For information about the “property” fields below, see https://schema.org/ScholarlyArticle -#}
+  {# For tips on writing alt text, see https://webaim.org/techniques/alttext/ -#}
+
+  <body vocab="http://schema.org/" typeof="ScholarlyArticle">
+    <header role="banner">
+      <aside>
+        {% block project_logo %}
+          <a href="{{ project_url }}"><img src="{{ project_logo }}" alt="{{ project_name }} logo"></a>
+        {% endblock %}
+      </aside>
+      <div>
+        <h1 property="headline">{{ poster_title }}</h1>
+        <h2 property="alternativeHeadline">{{ poster_subtitle }}</h2>
+        <address>
+          {% block authors %}
+            <a property="author">Author 1<sup>a</sup></a>,
+            <a property="author">Author 2<sup>a</sup></a>,
+            <a property="author">Author 3<sup>b</sup></a>
+          {% endblock %}
+          {# Leave author_institution_sep empty to get a newline #}
+          <span class="separator">{{ author_institution_sep }}</span>
+          {% block institutions %}
+            <sup>a</sup><a property="sourceOrganization">University A</a>,
+            <sup>b</sup><a property="sourceOrganization">University B</a>
+          {% endblock %}
+        </address>
+        <span style="display: none">
+          {% block publication_info %}
+            <span property="publisher">{{ venue }}</span>,
+            <time pubdate property="datePublished" datetime="{{ pub_datetime_iso }}">{{ pub_date }}</time>
+          {% endblock %}
+        </span>
+      </div>
+      <aside>
+        {% block logos %}
+          <a href="https://example.com"><img src="institution-logo.png" alt="Institution logo"></a>
+        {% endblock %}
+      </aside>
+    </header>
+
+    <main property="articleBody">
+      {% block contents %}
+        {# Add content blocks here #}
+      {% endblock %}
+    </main>
+
+    <footer>
+      <address class="monospace">
+        {%- block project_link -%}
+          <a href="{{ project_url }}">{{ project_url }}</a>
+        {%- endblock -%}
+      </address>
+      <address class="monospace">
+        {%- block contact_information -%}{%- endblock -%}
+      </address>
+      {# Feel free to remove the block below, but keep the comment in <head> #}
+      {% block credits %}
+        <span class="credits">
+          Based on an <a href="https://github.com/cpitclaudel/academic-poster-template">open poster template</a>.
+        </span>
+      {% endblock %}
+    </footer>
+  </body>
+</html>

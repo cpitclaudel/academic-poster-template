@@ -1,0 +1,413 @@
+/*
+Copyright © 2020 Clément Pit-Claudel
+https://github.com/cpitclaudel/academic-poster-template
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+//////////////////
+// Tango colors //
+//////////////////
+
+@tango-butter-l: #fce94f;
+@tango-butter-m: #edd400;
+@tango-butter-d: #c4a000;
+
+@tango-orange-l: #fcaf3e;
+@tango-orange-m: #f57900;
+@tango-orange-d: #ce5c00;
+
+@tango-chocolate-l: #e9b96e;
+@tango-chocolate-m: #c17d11;
+@tango-chocolate-d: #8f5902;
+
+@tango-chameleon-l: #8ae234;
+@tango-chameleon-m: #73d216;
+@tango-chameleon-d: #4e9a06;
+
+@tango-blue-l: #729fcf;
+@tango-blue-m: #3465a4;
+@tango-blue-d: #204a87;
+
+@tango-plum-l: #ad7fa8;
+@tango-plum-m: #75507b;
+@tango-plum-d: #5c3566;
+
+@tango-red-l: #ef2929;
+@tango-red-m: #cc0000;
+@tango-red-d: #a40000;
+
+@tango-aluminum-1: #eeeeec;
+@tango-aluminum-2: #d3d7cf;
+@tango-aluminum-3: #babdb6;
+@tango-aluminum-4: #888a85;
+@tango-aluminum-5: #555753;
+@tango-aluminum-6: #2e3436;
+
+//////////////////////
+// Global variables //
+//////////////////////
+
+@header-img-height: 5rem;
+
+@columns: 4;
+@column-min-width: 22.5rem;
+@column-max-width: 30rem;
+
+@thin-space: 0.25rem;
+@mid-space: 0.5rem;
+@thick-space: 0.75rem;
+
+@thin-space-em: 0.25em;
+@mid-space-em: 0.5em;
+@thick-space-em: 0.75em;
+
+@grid-gap: 1rem;
+
+@color-accent: @tango-orange-l;
+@color-bg-light: @tango-aluminum-1;
+@color-bg-dark: @tango-aluminum-6;
+
+///////////////////
+// Poster layout //
+///////////////////
+
+a {
+    color: inherit;
+}
+
+address {
+    font-style: normal;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+pre, code, samp, .monospace {
+    font-family: "Ubuntu Mono", monospace;
+}
+
+b {
+    font-weight: normal;
+    display: block;
+    text-align: center;
+
+    &::before {
+        content: "▶  ";
+    }
+
+    &::after {
+        content: "  ◀";
+    }
+}
+
+// https://stackoverflow.com/questions/42176419/targeting-flex-items-on-the-last-or-specific-row
+@media all and (min-width: 2 * @column-max-width) {
+    body {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+
+        > header, > footer {
+            grid-auto-flow: column;
+            justify-content: space-between;
+        }
+
+        > header {
+            grid-template-columns: auto 1fr auto;
+        }
+    }
+
+    main {
+        align-content: flex-start;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        overflow: auto;
+        padding: @grid-gap / 2;
+
+        // This phantom element gives a bit of breathing room when scrolling
+        &::after {
+            content: " ";
+            display: block;
+            flex-basis: 100%;
+            width: @grid-gap / 2;
+        }
+
+        > * {
+            flex-grow: 1;
+            margin: @grid-gap / 2;
+            max-width: @column-max-width;
+            min-width: @column-min-width;
+            width: 100% / @columns - 1%;
+            width: calc(100% / @columns - @grid-gap);
+        }
+    }
+}
+
+@media not all and (min-width: 2 * @column-max-width) {
+    body {
+        > header, > footer {
+            grid-auto-flow: row;
+            justify-content: center;
+        }
+
+        > header > div {
+            margin-bottom: @thick-space;
+        }
+    }
+
+    main > * {
+        margin: @grid-gap;
+    }
+
+    article {
+        overflow-x: auto;
+        overflow-y: hidden; // FF bug
+    }
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: 'Fira Sans Condensed', 'Fira Sans', sans-serif;
+    margin: 0;
+
+    > header, > footer {
+        align-items: center;
+        background: black;
+        color: white;
+        display: grid;
+        grid-gap: @mid-space;
+        padding: @mid-space;
+        text-align: center;
+    }
+
+    > header {
+        font-size: 80%;
+
+        img {
+            max-height: @header-img-height;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        address {
+            margin-bottom: @thin-space;
+            margin-top: @thick-space;
+        }
+
+        time {
+            margin-top: @thin-space;
+        }
+    }
+}
+
+main {
+    box-sizing: border-box;
+    min-height: 0;
+
+    > * {
+        box-sizing: border-box;
+    }
+
+    > figure {
+        align-content: center;
+        display: grid;
+    }
+
+    img, object {
+        justify-self: center;
+        max-width: 100%;
+        vertical-align: middle;
+    }
+
+    figure {
+        text-align: center;
+
+        img {
+            width: 100%;
+        }
+
+        img:first-of-type:last-of-type,
+        object:first-of-type:last-of-type {
+            display: block;
+            margin: auto;
+        }
+
+        figcaption {
+            display: block;
+            margin-top: @mid-space;
+        }
+    }
+}
+
+article {
+    align-content: stretch;
+    align-items: center;
+    background: @color-bg-light;
+    display: grid;
+    grid-gap: @mid-space;
+    grid-template-rows: min-content;
+    hyphens: auto;
+    line-height: 1.35;
+    padding: 0 @mid-space @mid-space @mid-space;
+    // text-align: justify;
+
+    > header {
+        background: @color-bg-dark;
+        color: @color-accent;
+        margin: 0 -@mid-space 0 -@mid-space;
+        padding: @thin-space @mid-space;
+
+        > h3 {
+            font-weight: 500;
+        }
+    }
+
+    p, ul, pre, div, figure, hr {
+        margin: 0;
+    }
+
+    > hr {
+        border-width: thin 0 0 0;
+    }
+
+    ul, ol {
+        padding: 0;
+    }
+
+    li {
+        list-style-type: none;
+        padding-left: 1.25em;
+        margin-bottom: @mid-space;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &::before {
+            background: @color-accent;
+            border-radius: 100%;
+            content: " ";
+            display: inline-block;
+            font-weight: bold;
+            height: 0.35em;
+            margin-left: -1em;
+            margin-right: 0.65em;
+            vertical-align: middle;
+            width: 0.35em;
+        }
+    }
+
+    > ul, > ol {
+        display: contents;
+
+        li {
+            margin-bottom: 0;
+        }
+    }
+
+    ul.inline {
+        padding-left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        li {
+            display: inline;
+            margin: @thin-space-em @mid-space-em;
+            padding: 0;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+}
+
+////////////////////////////////
+// User customization classes //
+////////////////////////////////
+
+.center {
+    text-align: center;
+}
+
+.justify-center {
+    justify-self: center;
+}
+
+.align-center {
+    align-self: center;
+}
+
+.xxs { font-size: xx-small; }
+.xs { font-size: x-small; }
+.small { font-size: small; }
+.medium { font-size: medium; }
+.large { font-size: large; }
+.xl { font-size: x-large; }
+.xxl { font-size: xx-large; }
+.xxxl { font-size: xxx-large; }
+
+.columns-top, .columns-center, .columns-bottom {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: @mid-space;
+}
+
+.columns-top { align-items: start; }
+.columns-center { align-items: center; }
+.columns-bottom { align-items: end; }
+
+br.qquad {
+    content: " ";
+    margin-right: 4em;
+}
+
+.separator:empty {
+    display: block;
+}
+
+.contents {
+    display: contents;
+}
+
+////////////////////
+// Mathjax config //
+////////////////////
+
+mjx-container,
+.MJXc-display,
+.MJXp-display,
+.MathJax_Display,
+.MathJax_Preview,
+.MathJax_SVG_Display,
+.MathJax_SVG_Preview,
+.MathJax_PHTML_Display,
+.MathJax_PHTML_Preview,
+.MathJax_MathML {
+    margin: 0 !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.MathJax_Preview:empty {
+    display: none;
+}
