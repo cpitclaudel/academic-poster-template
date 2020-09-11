@@ -37,7 +37,9 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
       </aside>
       <div>
         <h1 property="headline">{{ poster_title }}</h1>
-        <h2 property="alternativeHeadline">{{ poster_subtitle }}</h2>
+        {% if poster_subtitle %}
+          <h2 property="alternativeHeadline">{{ poster_subtitle }}</h2>
+        {% endif %}
         <address>
           {% block authors %}
             <a property="author">Author 1<sup>a</sup></a>,
