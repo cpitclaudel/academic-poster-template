@@ -16,6 +16,12 @@
 {% set pub_datetime_iso = "2020-09-08" %}
 {% set pub_date = "September 8, 2020" %}
 
+{% block custom_head %}
+<style type="text/css">
+  html { font-size: 1.15rem }
+</style>
+{% endblock %}
+
 {% block authors %}
   {# Put authors here, with one link per author. #}
   <a property="author">Clément Pit-Claudel<sup>a</sup></a>
@@ -27,7 +33,7 @@
 
 {# Project logos shown on the left side #}
 {% block project_logos %}
-  <a href="{{ project_url }}"><img src="logo.png" alt="Logo of example project"></a>
+  <a href="{{ project_url }}"><img src="logo.png" alt="Tutorial logo"></a>
 {% endblock %}
 
 {# Extra logos shown on the right side #}
@@ -60,28 +66,53 @@
 
     <p>The recent shift to online conferences is a great opportunity to reconsider our poster-making tools, and it turns out that plain HTML5 + CSS works pretty well for making (more) accessible posters.</p>
 
-    <p>This template is released under a permissive license: all we ask if you use it for your own posters is that you leave a one-line comment in the <em>sources</em> to indicate its provenance.</p>
+    <p>This template is released under a permissive license: all we ask if you use it for your own posters is that you leave a one-line comment in the HTML sources.</p>
   </article>
 
   <article>
     <header><h3>Using this template</h3></header>
-
-    <h4>Easiest way: edit the HTML directly</h4>
-    <p>Download a copy of this <a href="FIXME github.io branch">tutorial</a> (or simply save this page) and edit it directly.  You'll also want to download the <a href="FIXME github.io">CSS style sheet</a>.  You can get the latest copy of both of these in the <a href="FIXME"><tt>dist</tt> folder</a> of our repository.</p>
-
-    <h4>Fancy way: Jinja2</h4>
-    <p>The poster is a Jinja2 template, so you can inherit from it and fill in the relevant fields and the contents.  Clone the <a href="FIXME">GitHub repository</a>, then start from <a href="FIXME">this tutorial's template</a>, which includes documentation for each field and block.</p>
-
-    <b>Check out our <a href="">README</a> for more details.</b>
+    <p>There are two ways to use this template: directly editing the HTML, and using Jinja2 templates</p>
   </article>
 
   <article>
-    <header><h3>Formatting blocks</h3></header>
+    <header><h3>Editing the HTML directly</h3></header>
+
+    <p>This is the simplest way to get started, since it just requires a text editor:</p>
+
+    <ol>
+      <li>Download the latest copy of this <a href="FIXME">tutorial</a> and the corresponding <a href="FIXME">stylesheet</a> from the <a href="FIXME"><code>dist</code> folder</a> of our repository</li>
+      <li>Adjust the metadata and add blocks to the <code>main</code> section.</li>
+    </ol>
+  </article>
+
+  <article>
+    <header><h3>Using Jinja2</h3></header>
+
+    <p>The poster is a Jinja2 template, so you can inherit from it and fill in the relevant fields and the contents.</p>
+
+    <ol>
+      <li>Clone the <a href="FIXME">GitHub repository</a></li>
+      <li>Create your own jinja2 template, starting from the <a href="FIXME">documented example</a></li>
+      <li>Render to HTML using the <code>render.py</code> script:<br/>
+        <code>./render.py your_jinja2_poster.jinja output.html</code>
+      </li>
+    </ol>
+
+    <b>The template for this tutorial includes documentation for each variable and block.</b>
+  </article>
+
+  <article>
+    <header><h3>Poster layout</h3></header>
 
     <p>Posters made using this template are composed of a sequence of blocks.  You can use CSS to customize the way the blocks are designed; by default they scroll left to right on wide screens and top to bottom on narrow screens.</p>
+  </article>
 
-    <p>Each block has the following structure:
-      <pre>&lt;article&gt;
+  <article>
+    <header><h3>Block template</h3></header>
+
+    <p>Each block has the following structure:</p>
+
+    <pre>&lt;article&gt;
   &lt;header&gt;&lt;h3&gt;<i>Block title</i>&lt;/h3&gt;&lt;/header&gt;
 
   <i>Block contents:
@@ -89,49 +120,78 @@
     figures (&lt;figure&gt;),
     lists (&lt;ul&gt;, &lt;ol&gt;),
     images (&lt;img&gt;, &lt;object&gt;),
-    tables (&lt;table&gt;),
-    etc.</i>
+    tables (&lt;table&gt;), …</i>
 &lt;/article&gt;</pre>
-    </p>
   </article>
 
   <article>
     <header><h3>Structural markup</h3></header>
 
     <p>The following markup is useful to structure content blocks:</p>
-    <dl>
-      <dt><code>&lt;p&gt;…&lt;/p&gt;</code></dt>
-      <dd>Paragraphs</dd>
+    <ul>
+      <li>
+        <code>&lt;p&gt;</code>
+        <p style="margin: 0">Paragraphs</p>
+        <code>&lt;/p&gt;</code>
+      </li>
 
-      <dt><code>&lt;ul&gt;&lt;li&gt;…&lt;/li&gt;…&lt;/ul&gt;</code></dt>
-      <dd><ul><li>Plain</li><li>lists</li></ul></dd>
+      <li>
+        <code>&lt;ul&gt;</code>
+        <ul>
+          <li><code>&lt;li&gt;</code>…<code>&lt;/li&gt;</code></li>
+        </ul>
+        <code>&lt;/ul&gt;</code> (Plain lists)
+      </li>
 
-      <dt><code>&lt;ol&gt;&lt;li&gt;…&lt;/li&gt;…&lt;/ol&gt;</code></dt>
-      <dd><ul><li>Numbered</li><li>lists</li></ul></dd>
+      <li>
+        <code>&lt;ol&gt;</code>
+        <ol>
+          <li><code>&lt;li&gt;</code>…<code>&lt;/li&gt;</code></li>
+        </ol>
+        <code>&lt;/ol&gt;</code> (Numbered lists)
+      </li>
 
-      <dt><code>&lt;b&gt;…&lt;/b&gt;</code></dt>
-      <dd><b>Call-outs (<i>alerts</i>)</b></dd>
-    </dl>
+      <li>
+        <code>&lt;b&gt;</code>
+        <b>Call-outs (<i>alerts</i>)</b>
+        <code>&lt;/b&gt;</code>
+      </li>
+    </ul>
   </article>
 
   <article>
     <header><h3>Inline markup</h3></header>
-      <dl>
-        <dt><code>&lt;a href="<var>url</var>"&gt;…&lt;/a&gt;</code></dt>
-        <dd><a href="url">Links</a></dd>
+      <ul>
+        <li>
+          <code>&lt;a href="<var>url</var>"&gt;</code>
+          <a href="url">Links</a>
+          <code>&lt;/a&gt;</code>
+        </li>
 
-        <dt><code>&lt;em&gt;…&lt;/em&gt;</code></dt>
-        <dd><em>Emphasized text</em></dd>
+        <li>
+          <code>&lt;em&gt;</code>
+          <em>Emphasized text</em>
+          <code>&lt;/em&gt;</code>
+        </li>
 
-        <dt><code>&lt;strong&gt;…&lt;/strong&gt;</code></dt>
-        <dd><strong>Important text</strong></dd>
+        <li>
+          <code>&lt;strong&gt;</code>
+          <strong>Important text</strong>
+          <code>&lt;/strong&gt;</code>
+        </li>
 
-        <dt><code>&lt;i&gt;…&lt;/i&gt;</code></dt>
-        <dd>Scientific terms, words in other languages (for example: <i>Homo sapiens</i>)</dd>
+        <li>
+          <code>&lt;i&gt;</code>
+          <i>Scientific terms, foreign words</i>
+          <code>&lt;/i&gt;</code>
+        </li>
 
-        <dt><code>&lt;var&gt;…&lt;/var&gt;</code></dt>
-        <dd>Math variables, placeholders (for example: <var>y</var> = <var>x</var> + 1)</dd>
-      </dl>
+        <li>
+          <code>&lt;var&gt;</code>
+          <var>Math variables, placeholders</var>
+          <code>&lt;/var&gt;</code>
+        </li>
+      </ul>
 
       <b>Not sure which one to use? Check out <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i">Mozilla's explanations</a>.  Using appropriate markup helps screen readers a lot.</b>
   </article>
@@ -139,16 +199,17 @@
   <article>
     <header><h3>Figures</h3></header>
 
-    <p>Use the following code to insert a figure:
-      <pre>&lt;figure&gt;
+    <p>Use the following code to insert a figure:</p>
+
+    <pre>&lt;figure&gt;
   <i>Figure contents:
     images (&lt;img&gt;, &lt;object&gt;),
     tables (&lt;table&gt;),
-    quotes,
-    etc.</i>
+    quotes, …</i>
   &lt;figcaption&gt;<i>Figure caption</i>&lt;/figcaption&gt;
 &lt;/figure&gt;</pre>
-    </p>
+
+    <hr/>
 
     <figure>
       <img src="https://www.w3.org/html/logo/downloads/HTML5_Logo.svg" width="197" height="64" alt="An orange shield with a white 5 emblazoned on it and the letters HTML above it.">
@@ -160,50 +221,60 @@
   <article>
     <header><h3>Images</h3></header>
 
-    <p>Use the following code to include an image:
-      <pre>&lt;img src="<var>source url</var>" alt="<var>image description</var>"&gt;</pre></p>
+    <p>Use the following code to include an image:</p>
 
-    <p>Prefer scalable images (SVG) for technical drawings and figures.  Most technical drawing software supports saving as SVG; if yours does not, you can typically save to PDF, which can then easily be <a href="">converted to SVG</a> (this is useful for TikZ diagrams in particular).</p>
+    <pre class="justify-center">&lt;img src="<var>source url</var>"
+     alt="<var>image description</var>"&gt;</pre>
 
-    <p>Make sure to include an <code>alt</code> attribute: it will be read by assistive technology and
+    <p>Prefer scalable images (SVG) for technical drawings and figures.</p>
+
+    <small>Most technical drawing software supports saving as SVG; if yours does not, you can typically save to PDF, which can then easily be <a href="FIXME">converted to SVG</a> (this is useful for TikZ diagrams in particular).</small>
+
+    <p>Make sure to include an <code>alt</code> attribute: it will be read by assistive technology and displayed while the image is loading
     </p>
   </article>
 
   <article>
     <header><h3>Mathematics</h3></header>
 
-    <p>This poster template loads <a href="FIXME mathjax">MathJax</a> by default, so you can include inline math in dollar signs (<code>$…$</code>) ($\left(\lambda x. e\right)\; v \downarrow e \, \left[x / v\right] \qquad (\mathrm{\beta})$) and display math in double dollar signs (<code>$$…$$</code>).</p>
+    <p>This poster template loads <a href="FIXME mathjax">MathJax</a> by default, so you can include inline math in backslash-parentheses <code>\( … \)</code> and display math in backslash-brackets <code>\[ … \]</code>:</p>
 
-    $$
-    \frac{\langle \mathtt{expr}, s\rangle \Downarrow v}{\langle \mathtt{var := expr}, s\rangle \downarrow s\left[\mathtt{var} \leftarrow v\right]}\small{\text{Assign}}
-    $$
+    <p class="center">\((\lambda x. e) v \downarrow e[x/v]\) (β-reduction)</p>
 
-    <p>Using MathJax instead of pre-rendered images allows users of assistive technology to browse the equations.</p>
+    \[\frac
+      {\langle \mathtt{expr}, s\rangle \Downarrow v}
+      {\langle \mathtt{var := expr}, s\rangle \downarrow s\left[\mathtt{var} \leftarrow v\right]}
+     \small{\text{Assign}}\]
+
+    <p>Using MathJax allows users of assistive technology to browse the equations.</p>
   </article>
 
   <article>
     <header><h3>Additional styling</h3></header>
 
-    <p>You can use CSS classes to customize the display further:</p>
+    <p>The template's stylesheet defines a few extra CSS classes:</p>
 
-    <p class="center"><pre>class="center"</pre>
-for centered text</p>
+    <p class="boxed center"><code>.center</code><br/>
+      (horizontally centered text)</p>
 
-    <p class="justify-center"><pre>class="justify-center"</pre>
-for a centered block</pre>
+    <p class="boxed justify-center"><code>.justify-center</code><br/>
+      (horizontally centered block)</p>
 
-    <div class="columns-center">
-      <pre>class="columns-top"
-class="columns-center"
-class="columns-bottom"</pre>
-      <span>for</span>
-      <span>vertically centered columns</span>
+    <div class="boxed center">
+      <div class="center columns" style="height: 3em">
+        <code style="align-self: start">.columns-top</code>
+        <code style="align-self: center">.columns-center</code>
+        <code style="align-self: end">.columns-bottom</code>
+      </div>
+      <span>(columns)</span>
     </div>
 
-    <b>To customize column widths, use <a href="FIXME mdn grid-template"><code>grid-template-columns</code></a> (e.g. <code>style="grid-template-columns: 40fr 60fr"</code> for 40%/60% widths).</b>
+    <small>To customize column widths, use <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns"><code>grid-template-columns</code></a>; for example, for 40%/60% widths, use the following snippet:
+      <pre class="center">style="grid-template-columns: 40fr 60fr"</pre>
+    </small>
   </article>
 
   <figure style="flex-grow: 9999999">
-    <img style="width: 70%; margin: 5% 0" src="koika.png" alt="Kôika logo" />
+    <img style="width: 70%; margin: 5% 0" src="logo.png" alt="Project logo" />
   </figure>
 {% endblock %}

@@ -355,6 +355,11 @@ article {
 // User customization classes //
 ////////////////////////////////
 
+.boxed {
+    border: thin solid @color-accent;
+    padding: @thin-space;
+}
+
 .center {
     text-align: center;
 }
@@ -376,7 +381,7 @@ article {
 .xxl { font-size: xx-large; }
 .xxxl { font-size: xxx-large; }
 
-.columns-top, .columns-center, .columns-bottom {
+.columns, .columns-top, .columns-center, .columns-bottom {
     display: grid;
     grid-auto-flow: column;
     grid-gap: @mid-space;
