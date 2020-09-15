@@ -68,7 +68,8 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 @grid-gap: 1rem;
 
-@color-accent: @tango-orange-l;
+@color-title: @tango-orange-l;
+@color-accent: @tango-orange-m;
 @color-bg-light: @tango-aluminum-1;
 @color-bg-dark: @tango-aluminum-6;
 
@@ -93,17 +94,12 @@ pre, code, samp, .monospace {
 }
 
 b {
-    font-weight: normal;
     display: block;
     text-align: center;
+    font-weight: 500;
 
-    &::before {
-        content: "▶  ";
-    }
-
-    &::after {
-        content: "  ◀";
-    }
+    // &::before { content: "▶  "; }
+    // &::after { content: "  ◀"; }
 }
 
 // https://stackoverflow.com/questions/42176419/targeting-flex-items-on-the-last-or-specific-row
@@ -275,7 +271,7 @@ article {
 
     > header {
         background: @color-bg-dark;
-        color: @color-accent;
+        color: @color-title;
         margin: 0 -@mid-space 0 -@mid-space;
         padding: @thin-space @mid-space;
 
@@ -284,7 +280,7 @@ article {
         }
     }
 
-    p, ul, pre, div, figure, hr {
+    p, ul, ol, pre, div, figure, hr {
         margin: 0;
     }
 
@@ -294,43 +290,49 @@ article {
         max-width: 100%;
     }
 
-    > hr {
+    hr {
         border-width: thin 0 0 0;
     }
 
     ul, ol {
         padding: 0;
-    }
 
-    li {
-        list-style-type: none;
-        padding-left: 1.25em;
-        margin-bottom: @mid-space;
+        > li {
+            list-style-type: none;
+            margin-left: 1.25em;
+            margin-bottom: @thin-space;
 
-        &:last-child {
-            margin-bottom: 0;
-        }
+            &::before {
+                display: inline-block;
+                margin-left: -1em;
+            }
 
-        &::before {
-            background: @color-accent;
-            border-radius: 100%;
-            content: " ";
-            display: inline-block;
-            font-weight: bold;
-            height: 0.35em;
-            margin-left: -1em;
-            margin-right: 0.65em;
-            vertical-align: middle;
-            width: 0.35em;
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 
-    > ul, > ol {
-        display: contents;
+    ol {
+        counter-reset: item;
 
-        li {
-            margin-bottom: 0;
+        > li::before {
+            // color: @color-accent;
+            content: counter(item) ". ";
+            counter-increment: item;
+            font-weight: 500;
+            width: 1em;
         }
+    }
+
+    ul > li::before {
+        background: @color-accent;
+        border-radius: 100%;
+        content: " ";
+        height: 0.35em;
+        vertical-align: middle;
+        width: 0.35em;
+        margin-right: 0.65em;
     }
 
     ul.inline {
