@@ -1,16 +1,17 @@
-dist/poster.css: poster.less
+docs/poster.css: poster.less
 	lessc --strict-units=on $< $@
 
-dist/%/:
-	mkdir -p dist/$*
+docs/%/:
+	mkdir -p $@
 
-dist/%/poster.css: dist/poster.css | dist/%/
+docs/%/poster.css: docs/poster.css | docs/%/
 	ln -f -s ../poster.css $@
 
-dist/%/poster.html: examples/%.jinja2 poster.jinja2 dist/%/poster.css | dist/%/
+docs/%/poster.html: docs/%.jinja2 poster.jinja2 docs/%/poster.css | docs/%/
 	./render.py $< $@
 
 clean:
-	rm -r dist/
+	rm docs/poster.css
+	rm -fr docs/*/poster.{html,css}
 
 .SECONDARY:
