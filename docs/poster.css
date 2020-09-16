@@ -1,0 +1,329 @@
+/*
+Copyright © 2020 Clément Pit-Claudel
+https://github.com/cpitclaudel/academic-poster-template
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+a {
+  color: inherit;
+}
+address {
+  font-style: normal;
+}
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+pre,
+code,
+samp,
+.monospace {
+  font-family: "Ubuntu Mono", monospace;
+}
+b {
+  display: block;
+  text-align: center;
+  font-weight: 500;
+}
+@media all and (min-width: 60rem) {
+  body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  body > header,
+  body > footer {
+    grid-auto-flow: column;
+    justify-content: space-between;
+  }
+  body > header {
+    grid-template-columns: auto 1fr auto;
+  }
+  main {
+    align-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow: auto;
+    padding: 0.5rem;
+  }
+  main::after {
+    content: " ";
+    display: block;
+    flex-basis: 100%;
+    width: 0.5rem;
+  }
+  main > * {
+    flex-grow: 1;
+    margin: 0.5rem;
+    max-width: 30rem;
+    min-width: 22.5rem;
+    width: 24%;
+    width: calc(100% / 4 - 1rem);
+  }
+}
+@media not all and (min-width: 60rem) {
+  body > header,
+  body > footer {
+    grid-auto-flow: row;
+    justify-content: center;
+  }
+  body > header > div {
+    margin-bottom: 0.75rem;
+  }
+  main > * {
+    margin: 1rem;
+  }
+  article {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  font-family: 'Fira Sans Condensed', 'Fira Sans', sans-serif;
+  margin: 0;
+}
+body > header,
+body > footer {
+  align-items: center;
+  background: black;
+  color: white;
+  display: grid;
+  grid-gap: 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+body > header {
+  font-size: 80%;
+}
+body > header img {
+  max-height: 5rem;
+}
+body > header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+body > header h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+body > header address {
+  margin-bottom: 0.25rem;
+  margin-top: 0.75rem;
+}
+body > header .publication-info {
+  display: none;
+}
+body > header time {
+  margin-top: 0.25rem;
+}
+main {
+  box-sizing: border-box;
+  min-height: 0;
+}
+main > * {
+  box-sizing: border-box;
+}
+main > figure {
+  align-content: center;
+  display: grid;
+}
+main img,
+main object {
+  justify-self: center;
+  max-width: 100%;
+  vertical-align: middle;
+}
+main figure {
+  text-align: center;
+}
+main figure img {
+  width: 100%;
+}
+main figure img:first-of-type:last-of-type,
+main figure object:first-of-type:last-of-type {
+  display: block;
+  margin: auto;
+}
+main figure figcaption {
+  display: block;
+  margin-top: 0.5rem;
+}
+article {
+  align-content: stretch;
+  align-items: center;
+  background: #eeeeec;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-rows: min-content;
+  hyphens: auto;
+  line-height: 1.35;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}
+article > header {
+  background: #2e3436;
+  color: #fcaf3e;
+  margin: 0 -0.5rem 0 -0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+article > header > h3 {
+  font-weight: 500;
+}
+article p,
+article ul,
+article ol,
+article pre,
+article div,
+article figure,
+article hr {
+  margin: 0;
+}
+article pre {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+article hr {
+  border-width: thin 0 0 0;
+}
+article ul,
+article ol {
+  padding: 0;
+}
+article ul > li,
+article ol > li {
+  list-style-type: none;
+  margin-left: 1.25em;
+  margin-bottom: 0.25rem;
+}
+article ul > li::before,
+article ol > li::before {
+  display: inline-block;
+  margin-left: -1em;
+}
+article ul > li:last-child,
+article ol > li:last-child {
+  margin-bottom: 0;
+}
+article ol {
+  counter-reset: item;
+}
+article ol > li::before {
+  content: counter(item) ". ";
+  counter-increment: item;
+  font-weight: 500;
+  width: 1em;
+}
+article ul > li::before {
+  background: #f57900;
+  border-radius: 100%;
+  content: " ";
+  height: 0.35em;
+  vertical-align: middle;
+  width: 0.35em;
+  margin-right: 0.65em;
+}
+article ul.inline {
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+article ul.inline li {
+  display: inline;
+  margin: 0.25em 0.5em;
+  padding: 0;
+}
+article ul.inline li::before {
+  display: none;
+}
+.boxed {
+  border: thin solid #f57900;
+  padding: 0.25rem;
+}
+.center {
+  text-align: center;
+}
+.justify-center {
+  justify-self: center;
+}
+.align-center {
+  align-self: center;
+}
+.xxs {
+  font-size: xx-small;
+}
+.xs {
+  font-size: x-small;
+}
+.small {
+  font-size: small;
+}
+.medium {
+  font-size: medium;
+}
+.large {
+  font-size: large;
+}
+.xl {
+  font-size: x-large;
+}
+.xxl {
+  font-size: xx-large;
+}
+.xxxl {
+  font-size: xxx-large;
+}
+.columns,
+.columns-top,
+.columns-center,
+.columns-bottom {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0.5rem;
+}
+.columns-top {
+  align-items: start;
+}
+.columns-center {
+  align-items: center;
+}
+.columns-bottom {
+  align-items: end;
+}
+br.qquad {
+  content: " ";
+  margin-right: 4em;
+}
+.separator:empty {
+  display: block;
+}
+.contents {
+  display: contents;
+}
+mjx-container,
+.MJXc-display,
+.MJXp-display,
+.MathJax_Display,
+.MathJax_Preview,
+.MathJax_SVG_Display,
+.MathJax_SVG_Preview,
+.MathJax_PHTML_Display,
+.MathJax_PHTML_Preview,
+.MathJax_MathML {
+  margin: 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.MathJax_Preview:empty {
+  display: none;
+}

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>The Essence of BlueSpec — A Core Language for Rule-Based Hardware Design (PLDI 2020 poster)</title>
+    <link rel="stylesheet" href="poster.css">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1">
+    <!-- Based on a poster template from https://github.com/cpitclaudel/academic-poster-template -->
+
+          <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+          <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+    
+          </head>
+
+  <body vocab="http://schema.org/" typeof="ScholarlyArticle">
+    <header role="banner">
+      <aside>
+          <a href="https://github.com/mit-plv/koika"><img src="logo.png" alt="Kôika logo (a cuttlefish)"></a>
+      </aside>
+      <div>
+        <h1 property="headline">The Essence of BlueSpec</h1>
+                  <h2 property="alternativeHeadline">A Core Language for Rule-Based Hardware Design</h2>
+                <address>
+            <a property="author">Thomas Bourgeat</a>,
+  <a property="author">Clément Pit-Claudel</a>,
+  <a property="author">Adam Chlipala</a>, and
+  <a property="author">Arvind</a>
+ |   <a property="sourceOrganization">MIT CSAIL</a>
+        </address>
+        <span class="publication-info">
+                      <span property="publisher">PLDI 2020</span>,
+            <time pubdate property="datePublished" datetime="2020-06-18">June 18, 2020</time>
+                  </span>
+      </div>
+      <aside>
+          <a href="https://mit.edu"><img src="mit.png" alt="MIT logo"></a>
+  <a href="https://github.com/mit-plv"><img src="plv.png" alt="PLV logo"></a>
+      </aside>
+    </header>
+
+    <main property="articleBody">
+        <article property="abstract">
+    <header><h3>Abstract</h3></header>
+
+    <p>Bluespec, a high-hevel HDL, offers a simple concurrency model that enables functional reasoning without compromising performance.</p>
+    <p>Unfortunately, its cost model is hard to formalize: performance depends on user hints and static analysis of conflicts within a design.</p>
+    <p>We present Kôika, a Bluespec derivative that gives direct control over <em>scheduling</em> decisions that determine performance, while using dynamic analysis to avoid concurrency anomalies.</p>
+    <p>Our implementation includes formal semantics, mechanized theorems, and a verified compiler.</p>
+  </article>
+
+  <article>
+    <header><h3>Overview</h3></header>
+
+    <figure>
+      <img src="state-equation.svg" alt="Decomposition of a Kôika program into rules and a scheduler" />
+      <figcaption>State function = Rules + Explicit schedule</figcaption>
+    </figure>
+  </article>
+
+  <article>
+    <header><h3>Contributions</h3></header>
+
+    <ul>
+      <li>Core calculus for rule-based language amenable to formal reasoning about functionality and performance</li>
+      <li>Cycle-accurate operational semantics</li>
+      <li>Proof of one-rule-at-a-time abstraction</li>
+      <li>Full Coq mechanization of the semantics</li>
+      <li>Verified compilation to RTL</li>
+      <li>Performance case-study of a pipelined processor</li>
+    </ul>
+  </article>
+
+  <article>
+    <header><h3>Motivation</h3></header>
+
+    <p>
+      <strong>HW spec</strong> =
+      <strong>Functional spec</strong> (ORAAT) + <strong>Performance spec</strong> (Not in previous work)
+    </p>
+
+    <p class="center" style="font-size: x-large">
+      in
+      → <var>f</var>
+      → <img style="height: 1em" src="queue.svg" alt="FIFO queue" />
+      → <var>g</var>
+      → out
+    </p>
+
+    <p>
+      <strong>Functional spec</strong>: out = <var>g</var>(<var>f</var>(in))<br>
+      <strong>Performance spec</strong>: out[t + 2] = <var>g</var>(<var>f</var>(in[t]))
+    </p>
+
+    <p>
+      <b>Precise semantics allows for <em>performance</em> proofs</b>
+    </p>
+  </article>
+
+  <article>
+    <header><h3>Our design</h3></header>
+
+    <img style="width: 80%" src="ecosystem.png" alt="Kôika’s semantics are written in Coq, as an interpreter.  Kôika programs, are written in a custom language embedded inside of Coq.  Users can write specifications of high-level properties and prove them against the semantics.  The compiler, also written in Coq, allows us to translate our programs into RTL circuits.  It is verified, so we now know that any properties proven about the original programs carry to the compiled circuits, including timing properties." />
+  </article>
+
+  <article>
+    <header><h3>The Kôika EDSL</h3></header>
+
+    <div class="columns-top">
+      <pre data-lang="koika">
+rule divide =
+  let v = r.rd_0() in
+  if iseven(v) then
+    r.wr_0(v >> 1)
+</pre>
+      <pre data-lang="koika">
+rule multiply =
+  let v = r.rd_1() in
+  if isodd(v) then
+    r.wr_1(3 * v + 1)
+</pre>
+    </div>
+    <pre data-lang="koika">
+schedule collatz = [divide; multiply]
+</pre>
+    <hr>
+    <div class="columns-top">
+      <pre data-lang="koika">
+rule swap =
+  s.wr_0(r.rd_0());
+  r.wr_0(s.rd_0())
+</pre>
+      <pre data-lang="koika">
+rule dyn_abort =
+  if r.rd_0() == 0 then
+    t.wr_0(0b1);
+  if s.rd_0() == 0 then
+    t.wr_0(0b1)
+</pre>
+    </div>
+  </article>
+
+  <article>
+    <header><h3>Core language</h3></header>
+
+    <ul class="inline">
+      <li>Registers <var>r</var></li>
+      <li>Variables <var>x</var></li>
+      <li>External functions <var>f</var></li>
+      <li>Constants <var>b</var></li>
+      <li>Ports <var>p</var> ∈ {0, 1}</li>
+      <li style="display: block">Actions <var>a</var> ⩴<br />
+        <ul class="inline">
+          <li><code data-lang="koika">$b</code></li>
+          <li><code data-lang="koika">$x</code></li>
+          <li><code data-lang="koika">$f($a, …, $a)</code></li>
+          <li><code data-lang="koika">skip</code></li>
+          <li><code data-lang="koika">let $x := $a in $a</code></li>
+          <li><code data-lang="koika">$r.rd_$p()</code> </li>
+          <li><code data-lang="koika">$r.wr_$p($a)</code> </li>
+          <li><code data-lang="koika">if $a then $a else $a</code></li>
+          <li>…</li>
+        </ul>
+    </ul>
+  </article>
+
+  <article>
+    <header><h3>Semantics</h3></header>
+
+    
+      <div style="display:none">
+        $$
+          \newcommand{\app}{\mathbin{+\!\!+}}
+          \newcommand{\hypsep}{\hspace{1.25em}}
+          \newcommand{\deduction}[3][]{\frac{#2}{#3}{\small{#1}}}
+          \newcommand{\logRead}[2]{\left(\textsf{rd}_{#1}, #2\right)}
+          \newcommand{\logWrite}[3]{\left(\textsf{wr}_{#1}, #2, #3\right)}
+          \newcommand{\logAppend}[2]{#2 \app [#1]}
+          \newcommand{\judgeExec}[3]{\Gamma \vdash \computesTo{(\ell, #1)}{\left(#2, #3\right)}}
+          \newcommand{\sgaRead}[3]{#2.\texttt{rd}_{\texttt{#1}}}
+          \newcommand{\sgaWrite}[4]{#2.\texttt{wr}_{\texttt{#1}}\left(#4\right)}
+          \newcommand{\computesTo}[2]{#1 \downarrow #2}
+        $$
+      </div>
+      $$
+        \deduction[\text{RD}{_0}]
+         {\logWrite{1}{r}{*} \notin L \hypsep
+          \logWrite{0}{r}{*} \notin L}
+         {\judgeExec{\sgaRead{0}{r}}{\logAppend{\logRead{0}{r}}{\ell}}{\mathcal{R}\left[r\right]}}
+      $$
+      $$
+        \deduction[\text{WR}{_1}]
+         {\judgeExec{a}{\ell^\prime}{v} \hypsep
+          \logWrite{1}{r}{*} \notin L \app \ell^\prime }
+         {\judgeExec{\sgaWrite{1}{r}{a}}{\logAppend{\logWrite{1}{r}{v}}{\ell^\prime}}{\textsf{tt}}}
+      $$
+    
+    <p class="center">
+      Rich specifications serve as a contract between hardware designers and compiler writers and enable verified designs and verified compilation.
+    </p>
+  </article>
+
+  <article>
+    <header><h3>One-rule-at-a-time abstraction</h3></header>
+
+    <pre class="justify-center" data-lang="coq">
+Theorem OneRuleAtATime init schedule:
+  exists rules ⊂ schedule,
+    interp_s init schedule =
+    foldl interp_r init rules.
+</pre>
+
+    <div class="columns-center">
+      <img src="correctness-koika.svg" alt="Kôika's semantics" />
+      <span class="xxl">∈</span>
+      <img src="correctness-oraat.svg" alt="Valid behaviors under one-rule-at-a-time semantics" />
+    </div>
+
+    <b>ORAAT property enables local, modular reasoning</b>
+    <b>Proof mechanization enables semantics exploration</b>
+  </article>
+
+  <article>
+    <header><h3>Compilation to RTL</h3></header>
+
+    <div class="columns-center" style="grid-template-columns: 40fr 60fr">
+      <img style="width: 60%" src="rtl.svg" alt="RTL circuit" />
+      <div class="center">
+        Sequential semantics<br>
+        ↓<br/>
+        Concurrent RTL with deferred checks
+      </div>
+    </div>
+
+    <hr>
+
+    <img style="width: 80%" src="log-update-wr.svg" alt="Semantic of log updates for writes.  Given a circuit corresponding to a semantic log and a circuit corresponding to a semantic value, an append to the log is compiled to a hardware log with the write flag set to 1 and the data field set to the value circuit." />
+
+    <hr>
+
+    <p class="center">
+      Verified circuit optimizations (constant propagation, mux elimination, partial evaluation) reduce the overhead of dynamic scheduling &amp; conflict resolution.
+    </p>
+  </article>
+
+  <article>
+    <header><h3>Compiler correctness</h3></header>
+
+    <pre class="justify-center" data-lang="coq">
+Theorem CompilerCorrectness init schedule:
+  interp_s   init schedule =
+  interp_rtl init (compile schedule).
+</pre>
+    <div class="columns-center">
+      <img src="correctness-koika.svg" alt="Kôika's semantics" />
+      <span class="xxl">≡</span>
+      <img src="correctness-circuits.svg" alt="RTL semantics" />
+    </div>
+  </article>
+
+  <article>
+    <header><h3>Output and downstream synthesis</h3></header>
+
+    <div class="columns-center" style="grid-template-columns: 60fr 40fr">
+      <img style="border: thin solid var(--aluminum-6)" src="collatz.svg" alt="Fragment of YoSys output on the Collatz example" />
+      <ul>
+        <li>Kôika outputs code in a safe subset of Verilog.</li>
+        <li>Downstream tools perform further optimizations and can generate FPGA and ASICs designs.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article>
+    <header><h3>Hardware artifacts so far</h3></header>
+
+    <ul>
+      <li>Arithmetic-pipeline performance proof (on paper)</li>
+      <li>Kôika port of a simple BSV RISCV core (most of RV32i&amp;e, critical path and area overhead ≤ 10%)</li>
+    </ul>
+
+    <img src="terminal.png" alt="Terminal window showing ASCII art of the PLDI20 logo, printed by running our RISCV core in simulation" />
+  </article>
+
+  <article>
+    <header><h3>Next steps</h3></header>
+
+    <ul>
+      <li>Kôika-level simulation, leveraging high-level structure for performance</li>
+      <li>Verification of performance (pipelining behavior) and timing properties of the RISCV core</li>
+      <li>Multi-core systems &amp; enclaves, with proofs of safety from timing side-channels</li>
+      <li>Further language design, including native modularity</li>
+    </ul>
+  </article>
+
+  <figure style="flex-grow: 9999999">
+    <img style="width: 70%; margin: 5% 0" src="koika.png" alt="Kôika logo" />
+  </figure>
+    </main>
+
+    <footer>
+      <address class="monospace">  <a href="https://github.com/mit-plv/koika">https://github.com/mit-plv/koika</a>
+</address>
+      <address class="monospace">  {bthom, cpitcla, adamc, arvind}@csail.mit.edu
+</address>
+                </footer>
+  </body>
+</html>

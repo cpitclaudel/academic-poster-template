@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Building your own HTML poster — A tutorial on using this template to make your own posters</title>
+    <link rel="stylesheet" href="poster.css">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1">
+    <!-- Based on a poster template from https://github.com/cpitclaudel/academic-poster-template -->
+
+          <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+          <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+    
+    <style type="text/css">
+  html { font-size: 1.15rem }
+</style>
+  </head>
+
+  <body vocab="http://schema.org/" typeof="ScholarlyArticle">
+    <header role="banner">
+      <aside>
+          <a href="https://github.com/cpitclaudel/academic-poster-template"><img src="logo.svg" alt="Tutorial logo"></a>
+      </aside>
+      <div>
+        <h1 property="headline">Building your own HTML poster</h1>
+                  <h2 property="alternativeHeadline">A tutorial on using this template to make your own posters</h2>
+                <address>
+              <a property="author">Clément Pit-Claudel<sup>a</sup></a>
+<br />  <sup>a</sup><a property="sourceOrganization">MIT CSAIL</a>
+        </address>
+        <span class="publication-info">
+                      <span property="publisher">Unpublished</span>,
+            <time pubdate property="datePublished" datetime="2020-09-08">September 8, 2020</time>
+                  </span>
+      </div>
+      <aside>
+          <a href="https://csail.mit.edu"><img style="background: white" src="csail.png" alt="MIT CSAIL Logo"></a>
+      </aside>
+    </header>
+
+    <main property="articleBody">
+        <article property="abstract">
+        <header><h3>Abstract</h3></header>
+
+    <p>Academic posters are usually designed using presentation software and distributed as images or PDFs.</p>
+
+    <p>While PDFs are fine for printing posters, they are not particularly user-friendly: they are hard to read on small screens, don't support resizing text or increasing contrast, and often don't work nicely with screen readers.</p>
+
+    <p>The recent shift to online conferences is a great opportunity to reconsider our poster-making tools, and it turns out that plain HTML5 + CSS works pretty well for making (more) accessible posters.</p>
+
+    <p>This template is released under a permissive license: all we ask if you use it for your own posters is that you leave a one-line comment in the HTML sources.</p>
+  </article>
+
+  <article>
+    <header><h3>Using this template</h3></header>
+    <p>There are two ways to use this template: directly editing the HTML, and using Jinja2 templates.</p>
+  </article>
+
+  <article>
+    <header><h3>Editing the HTML directly</h3></header>
+
+    <p>This is the simplest way to get started, since it just requires a text editor:</p>
+
+    <ol>
+      <li>Download the <a href="https://github.com/cpitclaudel/academic-poster-template/releases/latest">latest release</a> of this template (or download the <a href="https://raw.githubusercontent.com/cpitclaudel/academic-poster-template/main/docs/tutorial/poster.html">webpage</a> and the corresponding <a href="https://raw.githubusercontent.com/cpitclaudel/academic-poster-template/main/docs/poster.css">stylesheet</a> directly from the <a href="https://github.com/cpitclaudel/academic-poster-template/tree/main/docs/tutorial/">repository</a>).</li>
+      <li>Adjust the metadata and add blocks to the <code>main</code> section.</li>
+    </ol>
+  </article>
+
+  <article>
+    <header><h3>Using Jinja2</h3></header>
+
+    <p>The poster is a Jinja2 template, so you can inherit from it and fill in the relevant fields and the contents.</p>
+
+    <ol>
+      <li>Clone the <a href="https://github.com/cpitclaudel/academic-poster-template/">GitHub repository</a>.</li>
+      <li>Create your own jinja2 template, starting from <a href="https://github.com/cpitclaudel/academic-poster-template/tree/main/docs/tutorial.jinja2">this tutorial</a>.</li>
+      <li>Render to HTML using the <code>render.py</code> script:<br/>
+        <code>./render.py your_jinja2_poster.jinja output.html</code>
+      </li>
+    </ol>
+
+    <b>The template for this tutorial includes documentation for each variable and block.</b>
+  </article>
+
+  <article>
+    <header><h3>Poster layout</h3></header>
+
+    <p>Posters made using this template are composed of a sequence of blocks.  You can use CSS to customize the way the blocks are designed; by default they scroll left to right on wide screens and top to bottom on narrow screens.</p>
+
+    <b>Try resizing your browser to see how the poster's layout changes.</b>
+  </article>
+
+  <article>
+    <header><h3>Block template</h3></header>
+
+    <p>Each block has the following structure (fill in the italicized parts):</p>
+
+    <pre>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article">article</a>&gt;
+  &lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header">header</a>&gt;&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h">h3</a>&gt;<i>Block title</i>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h3">h3</a>&gt;&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header">header</a>&gt;
+
+  <i>Block contents:
+    paragraphs (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p">p</a>&gt;),
+    figures (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure</a>&gt;),
+    lists (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul">ul</a>&gt;, &lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol">ol</a>&gt;),
+    images (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img">img</a>&gt;, &lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object">object</a>&gt;),
+    tables (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table">table</a>&gt;), …</i>
+&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article">article</a>&gt;</pre>
+  </article>
+
+  <article>
+    <header><h3>Structural markup</h3></header>
+
+    <p>The following markup is useful to structure content blocks:</p>
+    <ul>
+      <li>
+        <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p">p</a>&gt;</code>
+        <p style="margin: 0">Paragraphs</p>
+        <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p">p</a>&gt;</code>
+      </li>
+
+      <li>
+        <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul">ul</a>&gt;</code>
+        <ul>
+          <li><code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li">li</a>&gt;</code>…<code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li">li</a>&gt;</code></li>
+        </ul>
+        <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul">ul</a>&gt;</code> (Plain lists)
+      </li>
+
+      <li>
+        <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol">ol</a>&gt;</code>
+        <ol>
+          <li><code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li">li</a>&gt;</code>…<code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li">li</a>&gt;</code></li>
+        </ol>
+        <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol">ol</a>&gt;</code> (Numbered lists)
+      </li>
+
+      <li>
+        <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b">b</a>&gt;</code>
+        <b>Call-outs (<i>alerts</i>)</b>
+        <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b">b</a>&gt;</code>
+      </li>
+    </ul>
+  </article>
+
+  <article>
+    <header><h3>Inline markup</h3></header>
+      <ul>
+        <li>
+          <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">a</a> href="<var>url</var>"&gt;</code>
+          <a href="url">Links</a>
+          <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">a</a>&gt;</code>
+        </li>
+
+        <li>
+          <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em">em</a>&gt;</code>
+          <em>Emphasized text</em>
+          <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em">em</a>&gt;</code>
+        </li>
+
+        <li>
+          <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong">strong</a>&gt;</code>
+          <strong>Important text</strong>
+          <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong">strong</a>&gt;</code>
+        </li>
+
+        <li>
+          <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i">i</a>&gt;</code>
+          <i>Scientific terms, foreign words</i>
+          <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i">i</a>&gt;</code>
+        </li>
+
+        <li>
+          <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var">var</a>&gt;</code>
+          <var>Math variables, placeholders</var>
+          <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var">var</a>&gt;</code>
+        </li>
+      </ul>
+
+      <b>Not sure which one to use? Check out <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i">Mozilla's explanations</a>.  Using appropriate markup helps screen readers a lot.</b>
+  </article>
+
+  <article>
+    <header><h3>Figures</h3></header>
+
+    <p>Use the following code to insert a figure:</p>
+
+    <pre>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure</a>&gt;
+  <i>Figure contents:
+    images (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img">img</a>&gt;, &lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object">object</a>&gt;),
+    tables (&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table">table</a>&gt;),
+    quotes, …</i>
+  &lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption">figcaption</a>&gt;<i>Figure caption</i>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption">figcaption</a>&gt;
+&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure</a>&gt;</pre>
+
+    <hr/>
+
+    <figure>
+      <img src="https://www.w3.org/html/logo/downloads/HTML5_Logo.svg" width="197" height="64" alt="An orange shield with a white 5 emblazoned on it and the letters HTML above it.">
+
+      <figcaption>The HTML5 logo (<i>Source: <a href="https://www.w3.org/html/logo/">W3C</a></i>)</figcaption>
+    </figure>
+  </article>
+
+  <article>
+    <header><h3>Images</h3></header>
+
+    <p>Use the following code to include an image:</p>
+
+    <pre class="justify-center">&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img">img</a> src="<var>source url</var>"
+     alt="<var>image description</var>"&gt;</pre>
+
+    <p>Prefer scalable images (SVG) for technical drawings and figures.</p>
+
+    <small>Most technical drawing software supports saving as SVG; if yours does not, you can typically save to PDF, which can then easily be <a href="https://superuser.com/questions/381125/how-do-i-convert-an-svg-to-a-pdf-on-linux">converted to SVG</a> (this is useful for TikZ diagrams in particular).</small>
+
+    <p>Make sure to include an <code>alt</code> attribute: it will be read by assistive technology and displayed while the image is loading
+    </p>
+  </article>
+
+  <article>
+    <header><h3>Mathematics</h3></header>
+
+    <p>This poster template loads <a href="https://www.mathjax.org/">MathJax</a> by default, so you can include inline math in backslash-parentheses <code>\( … \)</code> and display math in backslash-brackets <code>\[ … \]</code>:</p>
+
+    <p class="center">\((\lambda x. e) v \downarrow e[x/v]\) (β-reduction)</p>
+
+    \[\frac
+      {\langle \mathtt{expr}, s\rangle \Downarrow v}
+      {\langle \mathtt{var := expr}, s\rangle \downarrow s\left[\mathtt{var} \leftarrow v\right]}
+     \small{\text{Assign}}\]
+
+    <p>Using MathJax allows users of assistive technology to browse the equations.</p>
+  </article>
+
+  <article>
+    <header><h3>Additional styling</h3></header>
+
+    <p>The template's stylesheet defines a few extra CSS classes:</p>
+
+    <p class="boxed center"><code>.center</code><br/>
+      (horizontally centered text)</p>
+
+    <p class="boxed justify-center"><code>.justify-center</code><br/>
+      (horizontally centered block)</p>
+
+    <div class="boxed center">
+      <div class="center columns" style="height: 3em">
+        <code style="align-self: start">.columns-top</code>
+        <code style="align-self: center">.columns-center</code>
+        <code style="align-self: end">.columns-bottom</code>
+      </div>
+      <span>(columns)</span>
+    </div>
+
+    <small>To customize column widths, use <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns"><code>grid-template-columns</code></a>; for example, for 40%/60% widths, use the following snippet:
+      <pre class="center">style="grid-template-columns: 40fr 60fr"</pre>
+    </small>
+  </article>
+
+  <figure style="flex-grow: 9999999">
+    <img style="width: 70%" src="logo.svg" alt="Project logo" />
+    <figcaption>A stand-alone figure to fill the remaining space.</figcaption>
+  </figure>
+    </main>
+
+    <footer>
+      <address class="monospace">  <a href="https://github.com/cpitclaudel/academic-poster-template">https://github.com/cpitclaudel/academic-poster-template</a>
+</address>
+      <address class="monospace">  clement.pitclaudel@live.com
+</address>
+                    <span class="credits">
+          Based on an <a href="https://github.com/cpitclaudel/academic-poster-template">open poster template</a>.
+        </span>
+          </footer>
+  </body>
+</html>
