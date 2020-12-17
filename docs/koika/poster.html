@@ -203,7 +203,7 @@ rule dyn_abort =
   <article>
     <header><h3>One-rule-at-a-time abstraction</h3></header>
 
-    <pre class="justify-center" data-lang="coq">
+    <pre class="center-self" data-lang="coq">
 Theorem OneRuleAtATime init schedule:
   exists rules ⊂ schedule,
     interp_s init schedule =
@@ -246,7 +246,7 @@ Theorem OneRuleAtATime init schedule:
   <article>
     <header><h3>Compiler correctness</h3></header>
 
-    <pre class="justify-center" data-lang="coq">
+    <pre class="center-self" data-lang="coq">
 Theorem CompilerCorrectness init schedule:
   interp_s   init schedule =
   interp_rtl init (compile schedule).

@@ -228,10 +228,12 @@ main {
 
     > figure {
         align-content: center;
-        display: grid;
+        display: flex;
+        justify-content: center;
     }
 
     img, object {
+        align-self: center;
         justify-self: center;
         max-width: 100%;
         vertical-align: middle;
@@ -258,30 +260,35 @@ main {
 }
 
 article {
-    align-content: stretch;
-    align-items: center;
     background: @color-bg-light;
-    display: grid;
-    grid-gap: @mid-space;
-    grid-template-rows: min-content;
+    display: flex;
+    flex-direction: column;
     hyphens: auto;
     line-height: 1.35;
     padding: 0 @mid-space @mid-space @mid-space;
     // text-align: justify;
 
+    p, ul, ol, pre, div, figure, hr {
+        margin: 0;
+    }
+
+    > *, > p, > ul, > ol, > pre, > div, > figure, > hr {
+        margin: @mid-space 0 auto 0;
+    }
+
+    > mjx-container { /* override MathJaX */
+        margin: @mid-space 0 auto 0 !important;
+    }
+
     > header {
         background: @color-bg-dark;
         color: @color-title;
-        margin: 0 -@mid-space 0 -@mid-space;
+        margin: 0 -@mid-space auto -@mid-space;
         padding: @thin-space @mid-space;
 
         > h3 {
             font-weight: 500;
         }
-    }
-
-    p, ul, ol, pre, div, figure, hr {
-        margin: 0;
     }
 
     pre {
@@ -366,6 +373,11 @@ article {
     text-align: center;
 }
 
+.center-self {
+    justify-self: center;
+    align-self: center;
+}
+
 .justify-center {
     justify-self: center;
 }
@@ -410,7 +422,12 @@ br.qquad {
 // Mathjax config //
 ////////////////////
 
-mjx-container,
+mjx-container {
+    margin: 0 !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 .MJXc-display,
 .MJXp-display,
 .MathJax_Display,
@@ -420,9 +437,7 @@ mjx-container,
 .MathJax_PHTML_Display,
 .MathJax_PHTML_Preview,
 .MathJax_MathML {
-    margin: 0 !important;
-    overflow-x: auto;
-    overflow-y: hidden;
+    &:extend(mjx-container all);
 }
 
 .MathJax_Preview:empty {

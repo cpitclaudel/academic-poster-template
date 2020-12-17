@@ -135,10 +135,12 @@ main > * {
 }
 main > figure {
   align-content: center;
-  display: grid;
+  display: flex;
+  justify-content: center;
 }
 main img,
 main object {
+  align-self: center;
   justify-self: center;
   max-width: 100%;
   vertical-align: middle;
@@ -159,24 +161,12 @@ main figure figcaption {
   margin-top: 0.5rem;
 }
 article {
-  align-content: stretch;
-  align-items: center;
   background: #eeeeec;
-  display: grid;
-  grid-gap: 0.5rem;
-  grid-template-rows: min-content;
+  display: flex;
+  flex-direction: column;
   hyphens: auto;
   line-height: 1.35;
   padding: 0 0.5rem 0.5rem 0.5rem;
-}
-article > header {
-  background: #2e3436;
-  color: #fcaf3e;
-  margin: 0 -0.5rem 0 -0.5rem;
-  padding: 0.25rem 0.5rem;
-}
-article > header > h3 {
-  font-weight: 500;
 }
 article p,
 article ul,
@@ -186,6 +176,38 @@ article div,
 article figure,
 article hr {
   margin: 0;
+}
+article > *,
+article > p,
+article > ul,
+article > ol,
+article > pre,
+article > div,
+article > figure,
+article > hr {
+  margin: 0.5rem 0 auto 0;
+}
+article > mjx-container,
+article > .MJXc-display,
+article > .MJXp-display,
+article > .MathJax_Display,
+article > .MathJax_Preview,
+article > .MathJax_SVG_Display,
+article > .MathJax_SVG_Preview,
+article > .MathJax_PHTML_Display,
+article > .MathJax_PHTML_Preview,
+article > .MathJax_MathML {
+  /* override MathJaX */
+  margin: 0.5rem 0 auto 0 !important;
+}
+article > header {
+  background: #2e3436;
+  color: #fcaf3e;
+  margin: 0 -0.5rem auto -0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+article > header > h3 {
+  font-weight: 500;
 }
 article pre {
   overflow-x: auto;
@@ -252,6 +274,10 @@ article ul.inline li::before {
 }
 .center {
   text-align: center;
+}
+.center-self {
+  justify-self: center;
+  align-self: center;
 }
 .justify-center {
   justify-self: center;
