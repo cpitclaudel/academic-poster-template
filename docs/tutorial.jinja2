@@ -92,6 +92,7 @@
 
     <ol>
       <li>Clone the <a href="https://github.com/cpitclaudel/academic-poster-template/">GitHub repository</a>.</li>
+      <li>Install jinja2 (<code>pip install jinja2</code>)</li>
       <li>Create your own jinja2 template, starting from <a href="https://github.com/cpitclaudel/academic-poster-template/tree/main/docs/tutorial.jinja2">this tutorial</a>.</li>
       <li>Render to HTML using the <code>render.py</code> script:<br/>
         <code>./render.py your_jinja2_poster.jinja output.html</code>
@@ -99,6 +100,31 @@
     </ol>
 
     <b>The template for this tutorial includes documentation for each variable and block.</b>
+  </article>
+
+  <article>
+    <header><h3>Editing the Less Stylesheet</h3></header>
+
+    <p>This poster is styled with a <a href="https://lesscss.org/">Less stylesheet</a>. Edit the stylesheet to customize colors and font sizes.</p>
+
+    <ol>
+      <li>Install lessc (<code>npm install less -g</code>)</li>
+      <li>Edit <code>poster.less</code></li>
+      <li>Run: <code>lessc poster.less docs/poster.css</code></li>
+    </ol>
+  </article>
+
+  <article>
+    <header><h3>Livereload</h3></header>
+
+    <p>To avoid manually regenerating .html/.css from .jinja2/.less on every edit, use livereload to watch for changes, regenerate files, and refresh the browser.</p>
+
+    <ol>
+      <li>Install livereload (<code>pip install livereload</code>)</li>
+      <li>Run <code>./serve.py</code>
+      <li>Browse to <code>localhost:5500/docs/tutorial/poster.html</code>
+      <li>Make changes to a .jinja2/.less file, save, and see the update in the browser</li>
+    </ol>
   </article>
 
   <article>
@@ -192,6 +218,12 @@
           <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var">var</a>&gt;</code>
           <var>Math variables, placeholders</var>
           <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var">var</a>&gt;</code>
+          </li>
+
+        <li>
+          <code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code">code</a>&gt;</code>
+          <code>Inline code snippets</code>
+          <code>&lt;/<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code">code</a>&gt;</code>
         </li>
       </ul>
 
@@ -249,6 +281,24 @@
      \small{\text{Assign}}\]
 
     <p>Using MathJax allows users of assistive technology to browse the equations.</p>
+    </article>
+
+  <article>
+    <header><h3>Highlighted Code Blocks</h3></header>
+
+    <p>This poster template loads <a href="https://highlightjs.org/">highlight.js</a> by default to highlight code blocks.</p>
+
+    <pre class="center-self">
+&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre">pre</a>&gt;&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code">code</a> class="language-python"&gt;
+  <var>code snippet</var>
+  <var>...</var>
+&lt;/code&gt;&lt;/pre&gt;</pre>
+    <pre><code class="language-python">def fibonacci(num):
+    nb1, nb2 = 0, 1
+    for nbr in range(2, num+1):
+        nb1, nb2 = nb2, nb1 + nb2
+    return nb2</code></pre>
+    <small>Copy tags <a href="https://cdnjs.com/libraries/highlight.js">from here</a> into poster.jinja2 to add support for more exotic languages or to change the highlight styling</small>
   </article>
 
   <article>

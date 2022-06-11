@@ -62,7 +62,6 @@ b {
     margin: 0.5rem;
     max-width: 30rem;
     min-width: 22.5rem;
-    width: 24%;
     width: calc(100% / 4 - 1rem);
   }
 }
